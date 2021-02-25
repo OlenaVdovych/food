@@ -1,9 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap&subset=cyrillic-ext);
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Roboto, sans-serif
+    font-family: 'Pacifico', cursive;
 }
 
 a {
@@ -114,7 +114,7 @@ a {
 
 .sidepanel {
     position: fixed;
-    left: 60px;
+    left: 30px;
     top: 240px;
     height: 400px;
     width: 25px;
@@ -712,4 +712,20 @@ a {
     display: block;
     width: 280px;
     margin: 0 auto
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.fade {
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from{opacity: 0.1;}to{opacity: 1;}
 }
