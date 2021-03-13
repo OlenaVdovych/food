@@ -180,34 +180,75 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    new MenuCard(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'Меню "Фітнес"',
-        'Меню "Фітнес" - це новий підхід до приготування страв: більше свіжих овочів і фруктів. Продукт активних і здорових людей. Це абсолютно новий продукт з оптимальною ціною і високою якістю!',
-        9,
-        '.menu .container',
-    ).render();
+    const getResource = async (url) => {
+        let res = await fetch(url);
 
-    new MenuCard(
-        "img/tabs/elite.jpg",
-        "elite",
-        'Меню “Преміум”',
-        'В меню "Преміум" ми використовуємо не тільки гарний дизайн упаковки, але і якісне виконання страв. Червона риба, морепродукти, фрукти - ресторанне меню без походу в ресторан!',
-        18,
-        '.menu .container',
-        'menu__item'
-    ).render();
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
 
-    new MenuCard(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Пісне"',
-        'Меню "Пісне" - це ретельний підбір інгредієнтів: повна відсутність продуктів тваринного походження, молоко з мигдалю, вівса, кокоса або гречки, правильна кількість білків за рахунок тофу і імпортних вегетаріанських стейків. ',
-        12,
-        '.menu .container',
-        'menu__item'
-    ).render();
+        return await res.json();
+    };
+
+    getResource(`http://localhost:3000/menu`)
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
+
+    // getResource(`http://localhost:3000/menu`)
+    //     .then(data => createCard(data));
+
+    // function createCard(data) {
+    //     data.forEach(({img, altimg, title, descr, price}) => {
+    //         const element = document.createElement('div');
+
+    //         element.classList.add('menu__item');
+
+    //         element.innerHTML = `
+    //         <img src=${img} alt=${altimg}>
+    //         <h3 class="menu__item-subtitle">${title}</h3>
+    //         <div class="menu__item-descr">${descr}</div>
+    //         <div class="menu__item-divider"></div>
+    //         <div class="menu__item-price">
+    //             <div class="menu__item-cost">Вартість:</div>
+    //             <div class="menu__item-total"><span>${price}</span> грн/день</div>
+    //         </div>
+    //         `;
+
+    //         document.querySelector('.menu .container').append(element);
+    //     });
+    // }
+
+    // new MenuCard(
+    //     "img/tabs/vegy.jpg",
+    //     "vegy",
+    //     'Меню "Фітнес"',
+    //     'Меню "Фітнес" - це новий підхід до приготування страв: більше свіжих овочів і фруктів. Продукт активних і здорових людей. Це абсолютно новий продукт з оптимальною ціною і високою якістю!',
+    //     9,
+    //     '.menu .container'
+    // ).render();
+
+    // new MenuCard(
+    //     "img/tabs/elite.jpg",
+    //     "elite",
+    //     'Меню “Преміум”',
+    //     'В меню "Преміум" ми використовуємо не тільки гарний дизайн упаковки, але і якісне виконання страв. Червона риба, морепродукти, фрукти - ресторанне меню без походу в ресторан!',
+    //     18,
+    //     '.menu .container',
+    //     'menu__item'
+    // ).render();
+
+    // new MenuCard(
+    //     "img/tabs/post.jpg",
+    //     "post",
+    //     'Меню "Пісне"',
+    //     'Меню "Пісне" - це ретельний підбір інгредієнтів: повна відсутність продуктів тваринного походження, молоко з мигдалю, вівса, кокоса або гречки, правильна кількість білків за рахунок тофу і імпортних вегетаріанських стейків. ',
+    //     12,
+    //     '.menu .container',
+    //     'menu__item'
+    // ).render();
 
     //Forms
 
@@ -220,10 +261,22 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        let res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+
+        return await res.json();
+    };
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -237,19 +290,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
             const formData = new FormData(form);
 
-            const object = {};
-            formData.forEach(function (value, key) {
-                object[key] = value;
-            });
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            fetch('server.php', {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(object)
-            })
-            .then(data => data.text())
+            postData('http://localhost:3000/requests', json)
             .then(data => {
                 console.log(data);
                 showThanksModal(message.success);
@@ -285,7 +328,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }, 4000);
     }
 
-    fetch('db.json')
+    fetch('http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res));
 });
