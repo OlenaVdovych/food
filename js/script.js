@@ -1,3 +1,6 @@
+require('es6-promise').polyfill();
+import 'nodelist-foreach-polyfill';
+
 import tabs from './Modules/tabs';
 import modal from './Modules/modal';
 import timer from './Modules/timer';
