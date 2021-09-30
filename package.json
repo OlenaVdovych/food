@@ -2,33 +2,28 @@
   "name": "food",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+<<<<<<< HEAD
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OlenaVdovych/food.github.io.git"
+    "url": "git+https://github.com/OlenaVdovych/food.git"
   },
   "author": "Olena Vdovych",
   "license": "ISC",
-  "browsersList": [
-    "> 1%"
-  ],
   "bugs": {
-    "url": "https://github.com/OlenaVdovych/food.github.io/issues"
+    "url": "https://github.com/OlenaVdovych/food/issues"
   },
-  "homepage": "https://github.com/OlenaVdovych/food.github.io#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.13.10",
-    "@babel/core": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
-    "babel-loader": "^8.2.2",
-    "core-js": "^3.9.1",
-    "json-server": "^0.16.3",
-    "webpack-cli": "^4.5.0"
+  "engines": {
+    "node": "14.17.6",
+    "npm": "7.24.1"
   },
+  "homepage": "https://github.com/OlenaVdovych/food#readme",
   "dependencies": {
+<<<<<<< HEAD
     "@babel/polyfill": "^7.12.1",
     "es6-promise": "^4.2.8",
     "jquery": "^3.6.0",
@@ -36,3 +31,6 @@
     "webpack": "^5.27.0"
   }
 }
+=======
+    "express": "^4.17.1"
+>>>>>>> 8708877219a4683e5c3ac2cbaf2c7f469612f976
